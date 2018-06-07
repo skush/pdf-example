@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from "@angular/forms";
 
 import { AppComponent } from './app.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -10,6 +11,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     PdfViewerModule
   ],
   providers: [],

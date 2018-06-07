@@ -1,41 +1,47 @@
 <div class="main" style="overflow:none;">
-  <div>
-    <h1>
-      Welcome to {{ title }}!
-    </h1>
-  </div>
-  <h2>Pdf Viewer: </h2>
-  <div class="container">
-    <div class="left-panel" style="width:25%; height:600px; float: left;">
-      left nav panel
+    <div>
+      <h1>
+        Welcome to {{ title }}!
+      </h1>
     </div>
-    
-  <!-- https://vadimdez.github.io/ng2-pdf-viewer/pdf-test.pdf -->
-    <div class="right-panel" style="width:75%; float:left; background-color: lightgrey;">
-      <div *ngIf="isLoaded" style="text-align: center;margin-bottom:10px;">
-        <!-- <div>
-          <input type="checkbox" [(value)]="showAllPages">
+    <h2>Pdf Viewer: </h2>
+    <div class="container">
+      <div class="left-panel" style="width:25%; height:600px; float: left;">
+        left nav panel
+      </div>
+      
+    <!-- https://vadimdez.github.io/ng2-pdf-viewer/pdf-test.pdf -->
+      <div class="right-panel" style="width:75%; float:left; background-color: lightgrey;">
+        <div *ngIf="isLoaded" style="margin-bottom:10px;"> <!-- text-align: center; -->
+          <div>
+            <input type="text" [(ngModel)]="searchText">
+            <button (click)="runSearch()">Search</button>
+            <button (click)="searchNext()">Find next</button>
+          </div>
+          <!-- <div>
+            <input type="checkbox" [(value)]="showAllPages">
+          </div>
+          <div style="margin-bottom:10px;">
+            <span>&nbsp;&nbsp;Page: </span>
+            <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
+            <span>&nbsp;&nbsp;{{ page }} / {{ totalPages }} </span>
+            <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+          </div> -->
+          <div>
+            <span>Zoom: </span>
+            <button (click)="zoomOut()" [disabled]="zoom < MIN_ZOOM"> - </button>
+            <span> {{zoomPercent}} </span>
+            <button (click)="zoomIn()" [disabled]="zoom > MAX_ZOOM"> + </button>
+          </div>
         </div>
-        <div style="margin-bottom:10px;">
-          <span>&nbsp;&nbsp;Page: </span>
-          <button (click)="prevPage()" [disabled]="page === 1">Prev</button>
-          <span>&nbsp;&nbsp;{{ page }} / {{ totalPages }} </span>
-          <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
-        </div> -->
-        <div>
-          <span>Zoom: </span>
-          <button (click)="zoomOut()" [disabled]="zoom < MIN_ZOOM"> - </button>
-          <span> {{zoomPercent}} </span>
-          <button (click)="zoomIn()" [disabled]="zoom > MAX_ZOOM"> + </button>
+        <div class="viewer-panel" style="height:600px;overflow: scroll;">
+          
+          <pdf-viewer src="https://gopro.com/content/dam/help/hero5-black/manuals/HERO5Black_UM_ENG_REVC_Web.pdf"
+                      [show-all]="true"
+                      [zoom]="zoom"
+                      (after-load-complete)="afterLoadComplete($event)" >
+          </pdf-viewer>
         </div>
       </div>
-      <div class="viewer-panel" style="height:600px;overflow: scroll;">
-        <pdf-viewer src="https://gopro.com/content/dam/help/hero5-black/manuals/HERO5Black_UM_ENG_REVC_Web.pdf"
-                    [show-all]="true"
-                    [zoom]="zoom"
-                    (after-load-complete)="afterLoadComplete($event)" >
-        </pdf-viewer>
-      </div>
     </div>
   </div>
-</div>

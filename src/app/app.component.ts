@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 const ZOOM_STEP: number = 0.1;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = 'ng2-Pdf-viewer component';
+  @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+
+  title = "ng2-Pdf-viewer component";
 
   MIN_ZOOM: number = 0.21; // 20%
   MAX_ZOOM: number = 4.99; //500%
@@ -16,14 +19,16 @@ export class AppComponent {
   //// showAllPages: boolean = true; ////[(page)]="page"
   //// page: number = 1;
   //// totalPages: number;
-  zoom: number;
+  zoom: number = 2.0;
   zoomPercent: string;
+
+  searchText: string = "";
 
   isLoaded: boolean = false;
 
   afterLoadComplete(pdfData: any) {
     //// this.totalPages = pdfData.numPages;
-    this.zoom = 1.0;
+    this.zoom = 2.0;
     this.updateZoomLabel();
     this.isLoaded = true;
   }
@@ -35,6 +40,27 @@ export class AppComponent {
   ////  prevPage() {
   ////   this.page--;
   //// }
+
+  runPdfCommand(cmd: string)
+  {
+    this.pdfComponent.pdfFindController.executeCommand(cmd, {
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
+      query: this.searchText
+    });
+  }
+
+  runSearch() {
+    this.runPdfCommand("find");
+  }
+
+  searchNext() {
+    this.runPdfCommand("findagain");
+    this.pdfComponent.pdfViewer.scrollPageIntoView( {pageNumber: 5} ); ////
+    this.pdfComponent.pdfViewer
+  }
 
   updateZoomLabel() {
     this.zoomPercent = Math.round( 100 * this.zoom) + " % ";
